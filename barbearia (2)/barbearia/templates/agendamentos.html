@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Agendamentos - {{ nome_barbearia }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f4; }
+        header { background-color: #222; color: #fff; padding: 20px; border-radius: 6px; }
+        nav a { color: #fff; margin-right: 20px; text-decoration: none; font-weight: bold; }
+        nav a:hover { text-decoration: underline; }
+        .filtros { margin: 20px 0; }
+        .filtros a {
+            margin-right: 12px; padding: 6px 12px; background: #333; color: #fff;
+            text-decoration: none; border-radius: 4px; font-size: 14px;
+        }
+        .filtros a.ativo { background: #007bff; }
+        table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 6px; overflow: hidden; }
+        th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #333; color: #fff; }
+        tr.concluido { background-color: #d4edda; }
+        tr.cancelado { background-color: #f8d7da; }
+        tr.agendado { background-color: #ffffff; }
+        a.detalhe-link { color: #007bff; text-decoration: none; font-weight: bold; }
+        a.detalhe-link:hover { text-decoration: underline; }
+        .btn-cancelar-tabela {
+            padding: 5px 10px; background-color: #dc3545; color: #fff; border: none;
+            border-radius: 4px; cursor: pointer; font-size: 12px;
+        }
+        .btn-cancelar-tabela:hover { background-color: #a71d2a; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>{{ nome_barbearia }}</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Início</a>
+            <a href="{{ url_for('agendamentos_view') }}">Agendamentos</a>
+            <a href="{{ url_for('novo_agendamento') }}">Novo Agendamento</a>
+        </nav>
+    </header>
+
+    <h2>Lista de Agendamentos</h2>
+
+    <div class="filtros">
+        <a href="{{ url_for('agendamentos_view') }}"
+           class="{{ 'ativo' if status_atual is none else '' }}">Todos</a>
+        <a href="{{ url_for('agendamentos_por_status', status='Agendado') }}"
+           class="{{ 'ativo' if status_atual == 'Agendado' else '' }}">Agendado</a>
+        <a href="{{ url_for('agendamentos_por_status', status='Concluído') }}"
+           class="{{ 'ativo' if status_atual == 'Concluído' else '' }}">Concluído</a>
+        <a href="{{ url_for('agendamentos_por_status', status='Cancelado') }}"
+           class="{{ 'ativo' if status_atual == 'Cancelado' else '' }}">Cancelado</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Cliente</th>
+                <th>Serviço</th>
+                <th>Barbeiro</th>
+                <th>Data</th>
+                <th>Horário</th>
+                <th>Status</th>
+                <th>Detalhe</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for agendamento in agendamentos %}
+            <tr class="{% if agendamento.status == 'Concluído' %}concluido
+                       {% elif agendamento.status == 'Cancelado' %}cancelado
+                       {% else %}agendado{% endif %}">
+                <td>{{ loop.index }}</td>
+                <td>{{ agendamento.cliente }}</td>
+                <td>{{ agendamento.servico }}</td>
+                <td>{{ agendamento.barbeiro }}</td>
+                <td>{{ agendamento.data }}</td>
+                <td>{{ agendamento.horario }}</td>
+                <td>{{ agendamento.status }}</td>
+                <td>
+                    <a class="detalhe-link"
+                       href="{{ url_for('agendamento_detalhe', id=agendamento.id) }}">Ver</a>
+                </td>
+                <td>
+                    {% if agendamento.status == "Agendado" %}
+                    <form method="POST"
+                          action="{{ url_for('mudar_status', id=agendamento.id, novo_status='Cancelado') }}"
+                          onsubmit="return confirm('Cancelar este agendamento?');">
+                        <button type="submit" class="btn-cancelar-tabela">Cancelar</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="9">Nenhum agendamento encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

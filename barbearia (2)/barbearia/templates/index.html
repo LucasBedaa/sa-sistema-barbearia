@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ nome_barbearia }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f4; }
+        header { background-color: #222; color: #fff; padding: 20px; border-radius: 6px; }
+        nav a { color: #fff; margin-right: 20px; text-decoration: none; font-weight: bold; }
+        nav a:hover { text-decoration: underline; }
+        .card { background: #fff; padding: 20px; margin-top: 20px; border-radius: 6px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+        h1 { margin: 0 0 10px 0; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>{{ nome_barbearia }}</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Início</a>
+            <a href="{{ url_for('agendamentos_view') }}">Agendamentos</a>
+            <a href="{{ url_for('novo_agendamento') }}">Novo Agendamento</a>
+            <a href="{{ url_for('agendamentos_por_status', status='Agendado') }}">Agendados</a>
+            <a href="{{ url_for('agendamentos_por_status', status='Concluído') }}">Concluídos</a>
+            <a href="{{ url_for('agendamentos_por_status', status='Cancelado') }}">Cancelados</a>
+        </nav>
+    </header>
+
+    <div class="card">
+        <h2>Bem-vindo(a) à {{ nome_barbearia }}!</h2>
+        <p>Total de agendamentos cadastrados: <strong>{{ agendamentos|length }}</strong></p>
+    </div>
+</body>
+</html>

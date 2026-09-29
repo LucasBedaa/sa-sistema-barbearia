@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo Agendamento - {{ nome_barbearia }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f4; }
+        header { background-color: #222; color: #fff; padding: 20px; border-radius: 6px; }
+        nav a { color: #fff; margin-right: 20px; text-decoration: none; font-weight: bold; }
+        nav a:hover { text-decoration: underline; }
+        .card { background: #fff; padding: 25px; margin-top: 20px; border-radius: 6px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.15); max-width: 450px; }
+        label { display: block; margin-top: 12px; font-weight: bold; font-size: 14px; }
+        input, select { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box;
+                         border: 1px solid #ccc; border-radius: 4px; }
+        button { margin-top: 20px; padding: 10px 20px; background: #007bff; color: #fff;
+                 border: none; border-radius: 4px; cursor: pointer; font-size: 15px; }
+        button:hover { background: #0056b3; }
+        .erro { background: #f8d7da; color: #721c24; padding: 12px; border-radius: 4px; margin-top: 15px; }
+        .voltar { display: inline-block; margin-top: 20px; color: #007bff; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>{{ nome_barbearia }}</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Início</a>
+            <a href="{{ url_for('agendamentos_view') }}">Agendamentos</a>
+            <a href="{{ url_for('novo_agendamento') }}">Novo Agendamento</a>
+        </nav>
+    </header>
+
+    <div class="card">
+        <h2>Novo Agendamento</h2>
+
+        {% if erro %}
+        <div class="erro">{{ erro }}</div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('novo_agendamento') }}">
+            <label for="cliente">Cliente *</label>
+            <input type="text" id="cliente" name="cliente" required>
+
+            <label for="telefone">Telefone</label>
+            <input type="text" id="telefone" name="telefone" placeholder="(00) 00000-0000">
+
+            <label for="servico">Serviço</label>
+            <input type="text" id="servico" name="servico" placeholder="Ex: Corte de cabelo">
+
+            <label for="preco">Preço (R$)</label>
+            <input type="number" step="0.01" min="0" id="preco" name="preco" placeholder="0.00">
+
+            <label for="barbeiro">Barbeiro</label>
+            <input type="text" id="barbeiro" name="barbeiro" placeholder="Ex: Carlos">
+
+            <label for="data">Data *</label>
+            <input type="date" id="data" name="data" required>
+
+            <label for="horario">Horário</label>
+            <input type="time" id="horario" name="horario">
+
+            <label for="status">Status</label>
+            <select id="status" name="status">
+                <option value="Agendado" selected>Agendado</option>
+                <option value="Concluído">Concluído</option>
+                <option value="Cancelado">Cancelado</option>
+            </select>
+
+            <button type="submit">Salvar Agendamento</button>
+        </form>
+    </div>
+
+    <a class="voltar" href="{{ url_for('agendamentos_view') }}">&larr; Voltar à listagem</a>
+</body>
+</html>
