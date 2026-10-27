@@ -18,20 +18,19 @@ Lucas Beda, Matheus Baratieri, Arhur Flores, João Ruon.
 
 ## Estrutura do projeto
 
-```
 barbearia/
-├── config.py          # credenciais do banco (H2)
+├── config.py           # credenciais do banco (H2)
 ├── banco.py            # função conectar() (H4, H11)
-├── models.py            # classe Agendamento - POO (H5, H10, H13)
-├── agendamentos.py       # camada de acesso a dados / DAO (H4, H8, H11)
-├── app.py                 # aplicação Flask - rotas/controller (H3, H12)
-├── test_models.py         # testes unitários (H9)
+├── models.py           # classe Agendamento - POO (H5, H10, H13)
+├── agendamentos.py     # camada de acesso a dados / DAO (H4, H8, H11)
+├── app.py              # aplicação Flask - rotas/controller (H3, H12)
+├── test_models.py      # testes unitários (H9)
 └── templates/
-    ├── index.html
-    ├── agendamentos.html
-    ├── novo.html
-    └── detalhe.html         # Jinja2 (H3, H12)
-```
+├── index.html
+├── agendamentos.html
+├── novo.html
+└── detalhe.html    # Jinja2 (H3, H12)
+
 
 ## Mapeamento dos critérios de avaliação
 
